@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PojokKreatif | Solusi Kebutuhan Guru & Lomba</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #ffffff;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+  
+          .logo-box {
+            width: 180px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background: transparent;
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .logo-box {
+                width: 140px;
+                height: 80px;
+            }
+        }
+
+        /* Logo Mitra/Partner */
+        .partner-logo {
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            max-height: 40px;
+        }
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Animasi Konten */
+        .page-content {
+            display: none;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .page-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Navigasi */
+        .nav-link.active {
+            color: #16a34a;
+            border-bottom: 2px solid #16a34a;
+        }
+
+        /* Transisi Menu Mobile */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+        }
+        #mobile-menu.open {
+            transform: translateX(0);
+        }
+        #menu-overlay {
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+        }
+        #menu-overlay.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Animasi Gambar saat Hover */
+        .hover-scale {
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.05);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            z-index: 10;
+        }
+
+        /* Card Hover Effect */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 15px;
+            transition: transform 0.5s ease;
+        }
+        .product-card:hover .product-img {
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body class="relative">
+
+    <!-- Overlay Menu Mobile -->
+    <div id="menu-overlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/50 z-[60]"></div>
+
+    <!-- Sidebar Menu Mobile -->
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-[280px] bg-white z-[70] shadow-2xl p-6">
+        <div class="flex justify-between items-center mb-8">
+            <h2 class="font-bold text-green-600">Menu Navigasi</h2>
+            <button onclick="toggleMenu()" class="text-gray-500 text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="flex flex-col gap-6 font-bold text-gray-600">
+            <button onclick="showPage('home'); toggleMenu()" class="text-left py-2 border-b border-gray-50">Beranda</button>
+            <button onclick="showPage('piala'); toggleMenu()" class="text-left py-2 border-b border-gray-50">Piala & Medali</button>
+            <button onclick="showPage('kreativitas'); toggleMenu()" class="text-left py-2 border-b border-gray-50">Alat Kreativitas</button>
+            <button onclick="showPage('guru'); toggleMenu()" class="text-left py-2 border-b border-gray-50">Kebutuhan Guru</button>
+            <button onclick="showPage('paket'); toggleMenu()" class="text-left py-2 border-b border-gray-50">Paket Event</button>
+        </nav>
+    </div>
+
+    <!-- Top Info -->
+    <div class="bg-green-600 text-white text-[10px] md:text-xs py-2 text-center px-4">
+        <p><i class="fas fa-bullhorn mr-1 md:mr-2"></i> Konsultasi Gratis: 0851-8300-2717</p>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 md:py-4">
+            <div class="flex items-center justify-between gap-4">
+                <div class="logo-box cursor-pointer flex-shrink-0" onclick="showPage('home')">
+    <img src="logo1.png" 
+         alt="Logo PojokKreatif" 
+         onerror="this.style.display='none'; this.parentElement.innerText='LOGO POJOKKREATIF'" 
+         class="h-full w-full object-contain p-1">
+</div>
+
+                <div class="hidden md:flex flex-1 mx-4 lg:mx-8">
+                    <div class="relative w-full max-w-md">
+                        <input type="text" placeholder="Cari piala atau alat peraga..." class="w-full pl-10 pr-4 py-2 bg-gray-100 rounded-xl text-sm focus:ring-2 focus:ring-green-400 outline-none">
+                        <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="hidden sm:block text-right mr-2">
+                        <p class="text-[10px] text-gray-400 uppercase font-bold">Admin Pojok</p>
+                        <p class="text-sm font-bold text-green-600">0851-8300-2717</p>
+                    </div>
+                    <button onclick="toggleMenu()" class="bg-gray-100 text-gray-600 p-3 rounded-xl md:hidden">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <a href="https://wa.me/6285183002717" target="_blank" class="hidden md:flex bg-green-100 text-green-600 p-3 rounded-xl">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </a>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-8 mt-4 border-t pt-3 text-sm font-bold text-gray-500">
+                <button onclick="showPage('home')" class="nav-link active pb-2 transition-all" id="link-home">Beranda</button>
+                <button onclick="showPage('piala')" class="nav-link pb-2 transition-all" id="link-piala">Piala & Medali</button>
+                <button onclick="showPage('kreativitas')" class="nav-link pb-2 transition-all" id="link-kreativitas">Alat Kreativitas</button>
+                <button onclick="showPage('guru')" class="nav-link pb-2 transition-all" id="link-guru">Kebutuhan Guru</button>
+                <button onclick="showPage('paket')" class="nav-link pb-2 transition-all" id="link-paket">Paket Event</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Halaman Beranda -->
+    <main id="page-home" class="page-content active">
+        <section class="bg-yellow-50 py-8 md:py-20 px-4">
+            <div class="container mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <div class="w-full md:w-1/2 text-center md:text-left order-2 md:order-1">
+                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] md:text-xs font-bold uppercase">Mitra Sekolah & Guru</span>
+                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold text-gray-800 mt-4 leading-tight">Rayakan <span class="text-green-600">Prestasi Si Kecil</span></h1>
+                    <p class="text-gray-600 mt-4 md:mt-6 text-sm md:text-lg">Penyedia piala, medali, dan alat kreativitas anak paling lengkap.</p>
+                    <div class="mt-8 flex flex-col sm:flex-row gap-3">
+                        <button onclick="showPage('piala')" class="bg-green-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-green-700 transition inline-block text-center">Lihat Katalog</button>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 order-1 md:order-2">
+                    <div class="w-full aspect-video md:aspect-square bg-white rounded-3xl shadow-xl overflow-hidden border-4 border-white flex items-center justify-center hover-scale cursor-pointer">
+                        <img src="gambar.png" alt="Banner Utama" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" class="w-full h-full object-cover">
+                        <div class="hidden flex-col items-center text-gray-300">
+                            <i class="fas fa-image text-6xl mb-2"></i>
+                            <p class="font-bold uppercase tracking-widest text-xs">banner_utama.jpg</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="py-12 container mx-auto px-4">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                <div class="p-4 border-r md:border-r-0">
+                    <p class="text-2xl md:text-4xl font-bold text-green-600 flex justify-center items-baseline">
+                        <span class="counter" data-target="500">0</span>+
+                    </p>
+                    <p class="text-[10px] font-bold text-gray-400 mt-1 uppercase">Produk Pilihan</p>
+                </div>
+                <div class="p-4 border-l md:border-l-0 md:border-r">
+                    <p class="text-2xl md:text-4xl font-bold text-green-600 flex justify-center items-baseline">
+                        <span class="counter" data-target="100">0</span>+
+                    </p>
+                    <p class="text-[10px] font-bold text-gray-400 mt-1 uppercase">Mitra Sekolah</p>
+                </div>
+                <div class="p-4 border-t md:border-t-0 md:border-r">
+                    <p class="text-2xl md:text-4xl font-bold text-green-600">FAST</p>
+                    <p class="text-[10px] font-bold text-gray-400 mt-1 uppercase">Respon Admin</p>
+                </div>
+                <div class="p-4 border-t md:border-t-0 border-l md:border-l-0">
+                    <p class="text-2xl md:text-4xl font-bold text-green-600">BISA</p>
+                    <p class="text-[10px] font-bold text-gray-400 mt-1 uppercase">Desain Custom</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logo Mitra (Baru Ditambahkan) -->
+        <section class="py-12 bg-gray-50 border-y border-gray-100">
+            <div class="container mx-auto px-4">
+                <p class="text-center text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-8">Telah Dipercaya Oleh</p>
+                <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-60">
+                    <!-- Gunakan placeholder atau ganti dengan src file asli Anda -->
+                    <div class="h-10 w-32 flex items-center justify-center grayscale hover:grayscale-0 transition duration-300">
+                        <img src="logosd.jpeg" alt="Sekolah Dasar" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="max-h-full">
+                        <span class="hidden font-bold text-gray-400 text-xs">Sekolah Dasar</span>
+                    </div>
+                    <div class="h-10 w-32 flex items-center justify-center grayscale hover:grayscale-0 transition duration-300">
+                        <img src="logomi.png" alt="Madrasah" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="max-h-full">
+                        <span class="hidden font-bold text-gray-400 text-xs">Madrasah</span>
+                    </div>
+                    <div class="h-10 w-32 flex items-center justify-center grayscale hover:grayscale-0 transition duration-300">
+                        <img src="logotu.jpeg" alt="Lembaga" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="max-h-full">
+                        <span class="hidden font-bold text-gray-400 text-xs">Lembaga</span>
+                    </div>
+                    <div class="h-10 w-32 flex items-center justify-center grayscale hover:grayscale-0 transition duration-300">
+                        <img src="logoigtki.png" alt="IGTK Indonesia" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="max-h-full">
+                        <span class="hidden font-bold text-gray-400 text-xs">IGTKI</span>
+                    </div>
+                    <div class="h-10 w-32 flex items-center justify-center grayscale hover:grayscale-0 transition duration-300">
+                        <img src="logoHIMPAUDI.png" alt="HIMPAUDI" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="max-h-full">
+                        <span class="hidden font-bold text-gray-400 text-xs">HIMPAUDI</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Halaman Piala -->
+<main id="page-piala" class="page-content py-12 container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-10">Katalog Piala</h2>
+    <div id="product-container" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <!-- Produk di-generate secara otomatis -->
+    </div>
+</main>
+
+<script>
+    // Konfigurasi Dasar
+    const waNumber = "6281909555131";
+    
+    const specialPrices = {
+        1: "150.000", 2: "35.000", 3: "170.000", 4: "150.000", 5: "70.000",
+        6: "180.000", 7: "190.000", 8: "200.000", 9: "185.000", 10: "190.000",
+        11: "200.000", 13: "1.000.000", 22: "1.000.000"
+    };
+
+    const container = document.getElementById('product-container');
+    let productHTML = '';
+
+    for (let i = 1; i <= 30; i++) {
+        let imgNum = i.toString().padStart(2, '0');
+        let fileName = imgNum + '.png';
+        let productName = 'Piala Model ' + imgNum;
+        let priceValue = specialPrices[i] || "190.000";
+        let displayPrice = 'Rp ' + priceValue;
+
+        productHTML += `
+        <div class="bg-white p-4 border rounded-2xl product-card group shadow-sm hover:shadow-md transition">
+            <!-- Klik gambar untuk buka foto full di tab baru -->
+            <div onclick="window.open('${fileName}', '_blank')" 
+                 class="relative overflow-hidden rounded-xl mb-4 bg-gray-50 flex items-center justify-center aspect-square cursor-zoom-in">
+                <img src="${fileName}" alt="${productName}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" class="product-img hover:scale-110 transition duration-300">
+                <div class="hidden flex-col items-center text-gray-300">
+                    <i class="fas fa-trophy text-3xl"></i>
+                    <p class="text-[8px] mt-2 text-center px-2">${fileName}</p>
+                </div>
+            </div>
+
+            <!-- Info Produk -->
+            <h4 class="font-bold text-sm product-name">${productName}</h4>
+            <p class="text-green-600 font-bold mt-1 product-price">${displayPrice}</p>
+            
+            <!-- Tombol WA tanpa link foto -->
+            <button onclick="handleOrder('${productName}', '${displayPrice}')" 
+                    class="w-full mt-3 border-2 border-green-600 text-green-600 py-2 rounded-lg text-xs font-bold hover:bg-green-600 hover:text-white transition uppercase">
+                Hubungi WA
+            </button>
+        </div>`;
+    }
+    container.innerHTML = productHTML;
+
+    // Fungsi Kirim Pesan WA (Hanya Nama & Harga)
+    function handleOrder(name, price) {
+        const text = `Halo, saya tertarik memesan produk ini:%0A%0A` +
+                     `*Produk:* ${name}%0A` +
+                     `*Harga:* ${price}%0A%0A` +
+                     `Mohon informasi lebih lanjut.`;
+        
+        const waLink = `https://wa.me/${waNumber}?text=${text}`;
+        window.open(waLink, '_blank');
+    }
+</script>
+
+    <!-- Halaman Kreativitas -->
+    <main id="page-kreativitas" class="page-content py-12 container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-10">Alat Kreativitas</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="bg-white p-4 border rounded-2xl product-card group cursor-pointer"
+         onclick="showProductDetail('Boneka Jari Karakter', 'Rp 15.000', 'alat-bonekajari.png', 'Koleksi boneka jari karakter hewan yang lucu untuk melatih imajinasi dan kemampuan bercerita anak. Terbuat dari bahan kain flanel lembut.', 'boneka-jari-01')">
+        <div class="relative overflow-hidden rounded-xl mb-4 bg-gray-50 flex items-center justify-center aspect-square">
+            <img src="alat-bonekajari.png" alt="Boneka Jari" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" class="product-img">
+            <div class="hidden flex-col items-center text-gray-300">
+                <i class="fas fa-hand-paper text-3xl"></i>
+                <p class="text-[8px] mt-2 text-center px-2">boneka_jari.jpg</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-sm product-name">Boneka Jari Karakter</h4>
+        <p class="text-green-600 font-bold mt-1 product-price">Rp 15.000</p>
+        <button class="w-full mt-3 border-2 border-green-600 text-green-600 py-2 rounded-lg text-xs font-bold hover:bg-green-600 hover:text-white transition uppercase">Detail Produk</button>
+    </div>
+
+    <div class="bg-white p-4 border rounded-2xl product-card group cursor-pointer"
+         onclick="showProductDetail('Pasang Gambar Pola', 'Rp 35.000', 'alat-pasanggambar.png', 'Mainan edukatif untuk melatih kognitif anak dengan cara mencocokkan kepingan gambar ke dalam pola yang tersedia. Terbuat dari kayu berkualitas.', 'pasang-gambar-01')">
+        <div class="relative overflow-hidden rounded-xl mb-4 bg-gray-50 flex items-center justify-center aspect-square">
+            <img src="alat-pasanggambar.png" alt="Pasang Gambar Pola" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" class="product-img">
+            <div class="hidden flex-col items-center text-gray-300">
+                <i class="fas fa-puzzle-piece text-3xl"></i>
+                <p class="text-[8px] mt-2 text-center px-2">pasang_gambar.jpg</p>
+            </div>
+        </div>
+        <h4 class="font-bold text-sm product-name">Pasang Gambar Pola</h4>
+        <p class="text-green-600 font-bold mt-1 product-price">Rp 35.000</p>
+        <button class="w-full mt-3 border-2 border-green-600 text-green-600 py-2 rounded-lg text-xs font-bold hover:bg-green-600 hover:text-white transition uppercase">Detail Produk</button>
+    </div>
+    
+    </div>
+    </main>
+
+    <!-- Halaman Detail Produk Dinamis -->
+    <main id="page-detail" class="page-content py-8 md:py-16 container mx-auto px-4">
+        <button onclick="goBackToCatalog()" class="flex items-center text-green-600 font-bold mb-8 hover:underline">
+            <i class="fas fa-arrow-left mr-2"></i> Kembali ke Katalog
+        </button>
+
+        <div class="flex flex-col md:flex-row gap-8 md:gap-16">
+            <!-- Galeri Gambar -->
+            <div class="w-full md:w-1/2">
+                <div class="bg-gray-50 rounded-3xl overflow-hidden border shadow-sm aspect-square flex items-center justify-center">
+                    <img id="detail-img" src="" alt="Detail Produk" class="w-full h-full object-cover">
+                </div>
+            </div>
+
+            <!-- Info Produk -->
+            <div class="w-full md:w-1/2">
+                <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Tersedia / Ready Stock</span>
+                <h2 id="detail-name" class="text-3xl md:text-4xl font-bold text-gray-800 mt-4">Nama Produk</h2>
+                <p id="detail-price" class="text-2xl font-bold text-green-600 mt-2">Rp 0</p>
+                
+                <div class="mt-8 border-t pt-8">
+                    <h5 class="font-bold text-gray-800 mb-2">Deskripsi Produk:</h5>
+                    <p id="detail-desc" class="text-gray-600 leading-relaxed">Deskripsi lengkap produk akan muncul di sini.</p>
+                </div>
+
+                <div class="mt-10 p-6 bg-gray-50 rounded-2xl border flex flex-col sm:flex-row items-center gap-6">
+                    <div class="flex-1">
+                        <p class="text-xs text-gray-400 font-bold uppercase tracking-widest">Pesan Sekarang</p>
+                        <p class="text-sm text-gray-600">Klik tombol samping untuk pesan langsung ke admin.</p>
+                    </div>
+                    <button onclick="orderFromDetail()" class="bg-green-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:bg-green-700 transition flex items-center justify-center gap-2 w-full sm:w-auto">
+                        <i class="fab fa-whatsapp text-xl"></i> Hubungi WA
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Halaman Lainnya (Guru, Paket) -->
+    <main id="page-guru" class="page-content py-12 container mx-auto px-4">
+        <div class="bg-green-700 rounded-3xl p-8 md:p-12 text-white flex flex-col md:flex-row items-center justify-between gap-8 overflow-hidden relative">
+            <div class="z-10 text-center md:text-left">
+                <h3 class="text-3xl font-bold">Area Bunda & Guru</h3>
+                <p class="mt-4 opacity-80 max-w-sm">Dapatkan alat peraga dan reward siswa dengan harga grosir.</p>
+                <button onclick="window.open('https://wa.me/6285183002717?text=Halo%20Admin%20PojokKreatif%2C%20saya%20tertarik%20dengan%20katalog%20kebutuhan%20guru.')" class="mt-6 bg-white text-green-700 px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-gray-100 transition">Konsultasi WA</button>
+            </div>
+            <div class="w-48 h-48 md:w-64 md:h-64 bg-green-600 rounded-full flex items-center justify-center overflow-hidden border-4 border-green-500 z-10 shadow-2xl hover-scale cursor-pointer">
+                <img src="foto_guru.jpeg" alt="Foto Guru" class="w-full h-full object-cover">
+            </div>
+        </div>
+    </main>
+
+    <main id="page-paket" class="page-content py-12 container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Paket Hemat Event</h2>
+        <div class="space-y-8">
+
+    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-6 md:p-8 max-w-3xl mx-auto flex flex-col md:flex-row gap-8 items-center hover:border-yellow-400 transition hover:shadow-xl group cursor-pointer"
+         onclick="showProductDetail('Paket Lomba Mewarnai', 'Rp 850.000', 'paket-mewarnai.png', 'Set piala (Juara 1, 2, & 3), 15 lembar kertas bergambar A3, 15 paket krayon mini, Sertifikat full color.', 'paket-silver-01')">
+         <div class="w-40 h-40 bg-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden border-2 border-transparent group-hover:border-yellow-200">
+            <img src="paket-mewarnai.png" alt="Paket Silver" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+         </div>
+         <div class="flex-1 text-center md:text-left">
+            <h4 class="text-2xl font-bold text-gray-800 product-name">Paket Lomba Mewarnai</h4>
+            <p class="text-sm text-gray-500 mt-2 italic">Paket lengkap untuk kompetisi seni tingkat dasar. Dirancang khusus untuk mengasah motorik halus anak.</p>
+            <p class="text-2xl font-bold text-orange-600 mt-6 product-price">Rp 850.000</p>
+            <button class="mt-4 border-2 border-orange-600 text-orange-600 px-6 py-2 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition uppercase text-xs">Cek Detail Paket</button>
+         </div>
+    </div>
+
+    <div class="space-y-8">
+    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-6 md:p-8 max-w-3xl mx-auto flex flex-col md:flex-row gap-8 items-center hover:border-yellow-400 transition hover:shadow-xl group cursor-pointer"
+         onclick="showProductDetail('Paket Lomba Melukis', 'Rp 950.000', 'paket-melukis.png', 'Set piala eksklusif, Kanvas 30x40cm, Cat Akrilik set, Kuas set, dan Sertifikat.', 'paket-melukis-01')">
+         <div class="w-40 h-40 bg-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden border-2 border-transparent group-hover:border-yellow-200">
+            <img src="paket-melukis.png" alt="Paket Melukis" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+         </div>
+         <div class="flex-1 text-center md:text-left">
+            <h4 class="text-2xl font-bold text-gray-800 product-name">Paket Lomba Melukis</h4>
+            <p class="text-sm text-gray-500 mt-2 italic">Ekspresikan kreativitas tanpa batas di atas kanvas. Cocok untuk tingkat lanjut dan menengah.</p>
+            <p class="text-2xl font-bold text-orange-600 mt-6 product-price">Rp 950.000</p>
+            <button class="mt-4 border-2 border-orange-600 text-orange-600 px-6 py-2 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition uppercase text-xs">Cek Detail Paket</button>
+         </div>
+    </div>
+
+    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-6 md:p-8 max-w-3xl mx-auto flex flex-col md:flex-row gap-8 items-center hover:border-yellow-400 transition hover:shadow-xl group cursor-pointer"
+         onclick="showProductDetail('Paket Lomba Fashion', 'Rp 1.250.000', 'paket-fashion.jpeg', 'Set piala kristal/bintang, Backdrop panggung, Sertifikat laminating, dan Goodie bag sponsor.', 'paket-fashion-01')">
+         <div class="w-40 h-40 bg-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden border-2 border-transparent group-hover:border-yellow-200">
+            <img src="paket-fashion.jpeg" alt="Paket Fashion" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+         </div>
+         <div class="flex-1 text-center md:text-left">
+            <h4 class="text-2xl font-bold text-gray-800 product-name">Paket Lomba Fashion</h4>
+            <p class="text-sm text-gray-500 mt-2 italic">Tunjukkan pesona dan gaya di atas panggung catwalk. Paket lengkap untuk ajang pencarian bakat.</p>
+            <p class="text-2xl font-bold text-orange-600 mt-6 product-price">Rp 1.250.000</p>
+            <button class="mt-4 border-2 border-orange-600 text-orange-600 px-6 py-2 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition uppercase text-xs">Cek Detail Paket</button>
+         </div>
+    </div>
+
+    <div class="bg-yellow-50 border-2 border-yellow-200 rounded-3xl p-6 md:p-8 max-w-3xl mx-auto flex flex-col md:flex-row gap-8 items-center hover:border-yellow-400 transition hover:shadow-xl group cursor-pointer"
+         onclick="showProductDetail('Paket Lomba Menggambar', 'Rp 850.000', 'paket-menggambar.png', 'Set piala bintang, Kertas gambar A3, Pensil warna set, Meja lipat, dan Sertifikat.', 'paket-menggambar-01')">
+         <div class="w-40 h-40 bg-white rounded-2xl flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden border-2 border-transparent group-hover:border-yellow-200">
+            <img src="paket-menggambar.png" alt="Paket Menggambar" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+         </div>
+         <div class="flex-1 text-center md:text-left">
+            <h4 class="text-2xl font-bold text-gray-800 product-name">Paket Lomba Menggambar</h4>
+            <p class="text-sm text-gray-500 mt-2 italic">Asah imajinasi dengan garis dan bentuk. Dirancang khusus untuk kategori anak sekolah.</p>
+            <p class="text-2xl font-bold text-orange-600 mt-6 product-price">Rp 850.000</p>
+            <button class="mt-4 border-2 border-orange-600 text-orange-600 px-6 py-2 rounded-xl font-bold hover:bg-orange-600 hover:text-white transition uppercase text-xs">Cek Detail Paket</button>
+         </div>
+    </div>
+</div>
+
+</div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8 mt-12">
+        <div class="container mx-auto px-4 text-center md:text-left">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                <div>
+                    <div class="logo-box bg-gray-800 border-gray-700 text-gray-500 mb-6 mx-auto md:mx-0">
+                        <img src="logo.png" alt="Logo PojokKreatif" onerror="this.style.display='none'; this.parentElement.innerText='LOGO POJOKKREATIF'" class="h-full w-full object-contain p-2">
+                    </div>
+                    <p class="text-gray-400 text-sm max-w-xs mx-auto md:mx-0">Solusi satu pintu untuk kebutuhan piala, medali, dan alat edukasi anak usia dini.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-6">Info Kontak</h4>
+                    <p class="text-sm text-gray-400">WA: 0851-8300-2717</p>
+                    <p class="text-sm text-gray-400 mt-2">official.pojokkreatif@gmail.com</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-center text-xs text-gray-500">
+                &copy; 2024 PojokKreatif. Terpercaya Sejak 2024.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WA -->
+    <a href="https://wa.me/6285183002717" target="_blank" class="md:hidden fixed bottom-6 right-6 bg-green-500 text-white w-14 h-14 rounded-full shadow-2xl flex items-center justify-center text-2xl z-50">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        const WA_NUMBER = "6285183002717";
+        let currentProduct = null;
+        let lastCatalogPage = 'home'; 
+
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const overlay = document.getElementById('menu-overlay');
+            menu.classList.toggle('open');
+            overlay.classList.toggle('show');
+            document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : 'auto';
+        }
+
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page-content');
+            pages.forEach(page => page.classList.remove('active'));
+
+            const targetPage = document.getElementById('page-' + pageId);
+            if(targetPage) {
+                targetPage.classList.add('active');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                if(pageId === 'home') initCounters();
+                
+                if (['home', 'piala', 'kreativitas', 'guru', 'paket'].includes(pageId)) {
+                    lastCatalogPage = pageId;
+                }
+            }
+
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach(link => link.classList.remove('active'));
+            const activeLink = document.getElementById('link-' + pageId);
+            if(activeLink) activeLink.classList.add('active');
+        }
+
+        function goBackToCatalog() {
+            showPage(lastCatalogPage);
+        }
+
+        function showProductDetail(name, price, img, desc, slug) {
+            currentProduct = { name, price, img, desc, slug };
+            
+            document.getElementById('detail-name').innerText = name;
+            document.getElementById('detail-price').innerText = price;
+            document.getElementById('detail-img').src = img;
+            document.getElementById('detail-desc').innerText = desc;
+
+            showPage('detail');
+        }
+
+        function orderFromDetail() {
+            if (!currentProduct) return;
+
+            const siteUrl = "https://pojokkreatif.com"; 
+            const productLink = `${siteUrl}/?product=${currentProduct.slug}`;
+
+            let message = `Halo Admin PojokKreatif,\n\nSaya ingin memesan produk berikut:\n`;
+            message += `📌 *Nama Produk:* ${currentProduct.name}\n`;
+            message += `💰 *Harga:* ${currentProduct.price}\n`;
+            message += `🔗 *Link Produk:* ${productLink}\n\n`;
+            message += `Mohon info cara pemesanannya ya. Terima kasih!`;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/${WA_NUMBER}?text=${encodedMessage}`, '_blank');
+        }
+
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            counters.forEach(counter => {
+                counter.innerText = '0';
+                const updateCounter = () => {
+                    const target = +counter.getAttribute('data-target');
+                    const c = +counter.innerText;
+                    const increment = target / 100;
+
+                    if (c < target) {
+                        counter.innerText = `${Math.ceil(c + increment)}`;
+                        setTimeout(updateCounter, 20);
+                    } else {
+                        counter.innerText = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+
+        window.onload = function() {
+            initCounters();
+        };
+    </script>
+</body>
+</html>
